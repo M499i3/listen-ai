@@ -16,6 +16,13 @@ A lightweight multi-service social listening platform with:
 - `stat` (Go): mentions, trends, top keywords, post retrieval
 - `db` (SQLite): stored under `./data/listenai.db`
 
+## Dataset Setup (Required)
+
+Before starting services, make sure dataset files are ready.
+
+1. Check the data setup guide in `data/README.md`.
+2. Download the dataset (Google Drive placeholder link currently) and import it into SQLite.
+
 ## API Summary
 
 ### Gateway
@@ -33,38 +40,19 @@ A lightweight multi-service social listening platform with:
 - `POST /sentiment`
 - `GET /health`
 
-## Manual local run (without Docker)
+## Run all services with Task
 
-Use four terminals:
+From project root:
 
-1. Stat service
 ```bash
-cd stat
-go mod tidy
-go run .
+task up
 ```
 
-2. NLP service
-```bash
-cd nlp
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn app:app --host 0.0.0.0 --port 8001
-```
+Notes:
 
-3. Gateway service
-```bash
-cd gateway
-npm install
-npm run dev
-```
+- `task up` runs a cleanup step first, then starts `stat`, `nlp`, `gateway`, and `frontend` together.
+- If `task` is not installed, install go-task first:
 
-4. Frontend
 ```bash
-cd frontend
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-streamlit run app.py --server.port 8501
+brew install go-task
 ```
